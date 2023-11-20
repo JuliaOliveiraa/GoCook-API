@@ -1,5 +1,7 @@
-﻿using GoCook_API.Interfaces;
+﻿using GoCook_API.DTO;
+using GoCook_API.Interfaces;
 using GoCook_API.Model;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Security.Cryptography;
@@ -23,6 +25,24 @@ public class UsuarioService : IUsuarioService
         _dbContext.Usuarios.Add(usuario);
         await _dbContext.SaveChangesAsync();
         return usuario;
+    }
+
+    public async Task<Usuario> CadastrarUsuario(UsuarioCadastroDTO usuarioDTO)
+    {
+        // Validar e processar o DTO conforme necessário
+        // Aqui, você pode adicionar lógica de validação, hashing de senha, etc.
+
+        // Exemplo de hashing de senha (usando Identity):
+        var usuario = new Usuario
+        {
+            Nm_Usuario = usuarioDTO.nm_Usuario,
+            Nm_Email = usuarioDTO.nm_Email,
+            // Hash da senha usando Identity
+            Ds_Senha = new PasswordHasher<Usuario>().HashPassword(null, usuarioDTO.ds_Senha)
+        };
+
+        // Chamar o método correspondente no facade para finalizar o cadastro
+        return await CriarUsuario(usuario);
     }
 
     public async Task<Usuario> Login(string email, string senha)

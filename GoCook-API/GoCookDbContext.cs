@@ -19,7 +19,12 @@ public class GoCookDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Usuario>()
-                .HasKey(u => u.Cd_Usuario);
+            .Property(u => u.Cd_Usuario)
+            .ValueGeneratedOnAdd(); 
+
+        modelBuilder.Entity<Usuario>()
+            .HasKey(u => u.Cd_Usuario);
+
 
         modelBuilder.Entity<Receita>()
             .HasKey(r => r.Cd_Receita);
