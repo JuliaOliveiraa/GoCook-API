@@ -18,32 +18,40 @@ public class UsuarioService : IUsuarioService
         _dbContext = dbContext;
     }
 
-    public async Task<Usuario> CriarUsuario(Usuario usuario)
+    public async Task<Usuario> CriarUsuario(UsuarioCadastroDTO usuarioDTO)
     {
-        usuario.Ds_Senha = CriptografarSenha(usuario.Ds_Senha);
+        usuarioDTO.Ds_Senha = CriptografarSenha(usuarioDTO.Ds_Senha);
+
+        var usuario = new Usuario
+        {
+            Nm_Usuario = usuarioDTO.Nm_Usuario,
+            Nm_Email = usuarioDTO.Nm_Email,
+            // Hash da senha usando Identity
+            Ds_Senha = new PasswordHasher<Usuario>().HashPassword(null, usuarioDTO.Ds_Senha)
+        };
 
         _dbContext.Usuarios.Add(usuario);
         await _dbContext.SaveChangesAsync();
         return usuario;
     }
 
-    public async Task<Usuario> CadastrarUsuario(UsuarioCadastroDTO usuarioDTO)
-    {
-        // Validar e processar o DTO conforme necessário
-        // Aqui, você pode adicionar lógica de validação, hashing de senha, etc.
+    //public async Task<Usuario> CadastrarUsuario(UsuarioCadastroDTO usuarioDTO)
+    //{
+    //    // Validar e processar o DTO conforme necessário
+    //    // Aqui, você pode adicionar lógica de validação, hashing de senha, etc.
 
-        // Exemplo de hashing de senha (usando Identity):
-        var usuario = new Usuario
-        {
-            Nm_Usuario = usuarioDTO.nm_Usuario,
-            Nm_Email = usuarioDTO.nm_Email,
-            // Hash da senha usando Identity
-            Ds_Senha = new PasswordHasher<Usuario>().HashPassword(null, usuarioDTO.ds_Senha)
-        };
+    //    // Exemplo de hashing de senha (usando Identity):
+    //    var usuario = new Usuario
+    //    {
+    //        Nm_Usuario = usuarioDTO.nm_Usuario,
+    //        Nm_Email = usuarioDTO.nm_Email,
+    //        // Hash da senha usando Identity
+    //        Ds_Senha = new PasswordHasher<Usuario>().HashPassword(null, usuarioDTO.ds_Senha)
+    //    };
 
-        // Chamar o método correspondente no facade para finalizar o cadastro
-        return await CriarUsuario(usuario);
-    }
+    //    // Chamar o método correspondente no facade para finalizar o cadastro
+    //    return await CriarUsuario(usuario);
+    //}
 
     public async Task<Usuario> Login(string email, string senha)
     {

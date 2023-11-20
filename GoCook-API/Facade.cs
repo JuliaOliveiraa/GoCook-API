@@ -1,4 +1,5 @@
-﻿using GoCook_API.Interfaces;
+﻿using GoCook_API.DTO;
+using GoCook_API.Interfaces;
 using GoCook_API.Model;
 
 namespace GoCook_API;
@@ -15,7 +16,7 @@ public class Facade
     }
 
     // Métodos relacionados a Usuários
-    public Task<Usuario> CriarUsuario(Usuario usuario)
+    public Task<Usuario> CriarUsuario(UsuarioCadastroDTO usuario)
     {
         return _usuarioService.CriarUsuario(usuario);
     }

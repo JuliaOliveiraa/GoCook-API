@@ -2,7 +2,7 @@
 
 public class UsuarioCadastroDTO
 {
-    public string nm_Usuario { get; set; }
-    public string nm_Email { get; set; }
-    public string ds_Senha { get; set; }
+    public string Nm_Usuario { get; set; }
+    public string Nm_Email { get; set; }
+    public string Ds_Senha { get; set; }
 }

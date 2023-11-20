@@ -1,4 +1,5 @@
-﻿using GoCook_API.Model;
+﻿using GoCook_API.DTO;
+using GoCook_API.Model;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GoCook_API.Controllers;
@@ -15,7 +16,7 @@ public class UsuarioController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CriarUsuario([FromBody] Usuario usuario)
+    public async Task<IActionResult> CriarUsuario([FromBody] UsuarioCadastroDTO usuario)
     {
         var novoUsuario = await _facade.CriarUsuario(usuario);
         return Ok(novoUsuario);
