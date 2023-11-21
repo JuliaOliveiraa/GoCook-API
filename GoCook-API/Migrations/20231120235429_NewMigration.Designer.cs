@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GoCook_API.Migrations
 {
     [DbContext(typeof(GoCookDbContext))]
-    [Migration("20231022011654_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20231120235429_NewMigration")]
+    partial class NewMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
