@@ -6,6 +6,6 @@ namespace GoCook_API.Interfaces;
 public interface IUsuarioService
 {
     Task<Usuario> CriarUsuario(UsuarioCadastroDTO usuario);
-    Task<Usuario> Login(string email, string senha);
+    Task<LoginResponseDTO> Login(string email, string senha);
     Task<bool> DeletarUsuario(int id);
 }

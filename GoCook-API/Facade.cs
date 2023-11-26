@@ -21,7 +21,7 @@ public class Facade
         return _usuarioService.CriarUsuario(usuario);
     }
 
-    public Task<Usuario> Login(string email, string senha)
+    public Task<LoginResponseDTO> Login(string email, string senha)
     {
         return _usuarioService.Login(email, senha);
     }
