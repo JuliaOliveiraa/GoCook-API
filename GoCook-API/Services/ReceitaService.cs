@@ -1,4 +1,5 @@
-﻿using GoCook_API.Interfaces;
+﻿using GoCook_API.DTO;
+using GoCook_API.Interfaces;
 using GoCook_API.Model;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,14 +14,28 @@ namespace GoCook_API.Services
             _dbContext = dbContext;
         }
 
-        public async Task<Receita> CriarReceita(Receita receita)
+        public async Task<Receita> CriarReceita(ReceitaDTO receitaDTO)
         {
+            var usuario = await _dbContext.Usuarios.FindAsync(receitaDTO.Cd_Usuario);
+
+            var receita =  new Receita
+            {
+                Cd_Receita = receitaDTO.Cd_Receita,
+                Nm_Receita = receitaDTO.Nm_Receita,
+                Qt_TempoPreparo = receitaDTO.Qt_TempoPreparo,
+                Ds_ModoPreparo = receitaDTO.Ds_ModoPreparo,
+                Qt_PessoasServidas = receitaDTO.Qt_PessoasServidas,
+                Ingredientes = receitaDTO.Ingredientes,
+                Cd_Usuario = receitaDTO.Cd_Usuario,
+                Usuario = usuario
+            };
+
             _dbContext.Receitas.Add(receita);
             await _dbContext.SaveChangesAsync();
             return receita;
         }
 
-        public async Task<Receita> EditarReceita(Receita receita)
+        public async Task<Receita> EditarReceita(ReceitaDTO receita)
         {
             var existingReceita = await _dbContext.Receitas.FindAsync(receita.Cd_Receita);
 
@@ -47,14 +62,33 @@ namespace GoCook_API.Services
             return false;
         }
 
-        public async Task<List<Receita>> ObterReceitasPorUsuario(int idUsuario)
+        public async Task<List<ReceitaResponseDTO>> ObterReceitasPorUsuario(int idUsuario)
         {
             var receitas = await _dbContext.Receitas
+                .Include(r => r.Ingredientes)
                 .Where(r => r.Cd_Usuario == idUsuario)
                 .ToListAsync();
 
-            return receitas;
+            if (receitas == null || receitas.Count == 0)
+            {
+                // Retornar mensagem ao invés de lançar exceção
+                return new List<ReceitaResponseDTO> { new ReceitaResponseDTO { Mensagem = "Este usuário ainda não tem nenhuma receita cadastrada." } };
+            }
+
+            var receitasDTO = receitas.Select(r => new ReceitaResponseDTO
+            {
+                Cd_Receita = r.Cd_Receita,
+                Nm_Receita = r.Nm_Receita,
+                Qt_TempoPreparo = r.Qt_TempoPreparo,
+                Ds_ModoPreparo = r.Ds_ModoPreparo,
+                Qt_PessoasServidas = r.Qt_PessoasServidas,
+                Ingredientes = r.Ingredientes,
+                Cd_Usuario = r.Cd_Usuario
+            }).ToList();
+
+            return receitasDTO;
         }
+
 
         public async Task<Receita> ObterReceitaPorId(int id)
         {

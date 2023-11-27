@@ -1,4 +1,5 @@
-﻿using GoCook_API.Model;
+﻿using GoCook_API.DTO;
+using GoCook_API.Model;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GoCook_API.Controllers;
@@ -15,14 +16,14 @@ public class ReceitaController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CriarReceita([FromBody] Receita receita)
+    public async Task<IActionResult> CriarReceita([FromBody] ReceitaDTO receita)
     {
         var novaReceita = await _facade.CriarReceita(receita);
         return Ok(novaReceita);
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> EditarReceita(int id, [FromBody] Receita receita)
+    public async Task<IActionResult> EditarReceita(int id, [FromBody] ReceitaDTO receita)
     {
         var receitaEditada = await _facade.EditarReceita(receita);
         return Ok(receitaEditada);

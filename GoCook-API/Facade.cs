@@ -32,12 +32,12 @@ public class Facade
     }
 
     // Métodos relacionados a Receitas
-    public Task<Receita> CriarReceita(Receita receita)
+    public Task<Receita> CriarReceita(ReceitaDTO receita)
     {
         return _receitaService.CriarReceita(receita);
     }
 
-    public Task<Receita> EditarReceita(Receita receita)
+    public Task<Receita> EditarReceita(ReceitaDTO receita)
     {
         return _receitaService.EditarReceita(receita);
     }
@@ -46,7 +46,7 @@ public class Facade
     {
         return _receitaService.DeletarReceita(id);
     }
-    public Task<List<Receita>> ObterReceitasPorUsuario(int idUsuario)
+    public Task<List<ReceitaResponseDTO>> ObterReceitasPorUsuario(int idUsuario)
     {
         return _receitaService.ObterReceitasPorUsuario(idUsuario);
     }
