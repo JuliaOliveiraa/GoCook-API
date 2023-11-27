@@ -12,5 +12,5 @@ public class Usuario
     public string Ds_Senha { get; set; }
 
     // Relacionamento com Receitas
-    public List<Receita>? Receitas { get; set; }
+    public virtual List<Receita>? Receitas { get; set; }
 }

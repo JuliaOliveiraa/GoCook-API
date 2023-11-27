@@ -5,11 +5,20 @@
 namespace GoCook_API.Migrations
 {
     /// <inheritdoc />
-    public partial class NewMigration : Migration
+    public partial class migrationNova : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Ingredientes");
+
+            migrationBuilder.DropTable(
+                name: "Receitas");
+
+            migrationBuilder.DropTable(
+                name: "Usuarios");
+
             migrationBuilder.CreateTable(
                 name: "Usuarios",
                 columns: table => new
@@ -52,10 +61,11 @@ namespace GoCook_API.Migrations
                 name: "Ingredientes",
                 columns: table => new
                 {
-                    Cd_Ingrediente = table.Column<int>(type: "int", nullable: false),
+                    Cd_Ingrediente = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Cd_Receita = table.Column<int>(type: "int", nullable: false),
                     Nm_Ingrediente = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Qt_Ingrediente = table.Column<int>(type: "int", nullable: false)
+                    Qt_Ingrediente = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {

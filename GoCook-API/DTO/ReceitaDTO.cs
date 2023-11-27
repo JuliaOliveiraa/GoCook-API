@@ -10,6 +10,6 @@ public class ReceitaDTO
     public string Ds_ModoPreparo { get; set; }
     public int Qt_PessoasServidas { get; set; }
     public int Cd_Usuario { get; set; }
-    public List<Ingrediente> Ingredientes { get; set; }
+    public List<IngredienteDTO> Ingredientes { get; set; }
 }
 

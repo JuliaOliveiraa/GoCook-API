@@ -16,24 +16,45 @@ namespace GoCook_API.Services
 
         public async Task<Receita> CriarReceita(ReceitaDTO receitaDTO)
         {
-            var usuario = await _dbContext.Usuarios.FindAsync(receitaDTO.Cd_Usuario);
+            // Obtenha o usuário sem rastreamento (AsNoTracking) para evitar problemas com entidades rastreadas
+            var usuario = await _dbContext.Usuarios.AsNoTracking().FirstOrDefaultAsync(u => u.Cd_Usuario == receitaDTO.Cd_Usuario);
 
-            var receita =  new Receita
+            if (usuario == null)
             {
-                Cd_Receita = receitaDTO.Cd_Receita,
+                // Se o usuário não existir, você pode tratar isso conforme necessário
+                // Pode lançar uma exceção, retornar null ou realizar outra ação
+                throw new Exception("Usuário não encontrado");
+            }
+
+            var novaReceita = new Receita
+            {
                 Nm_Receita = receitaDTO.Nm_Receita,
                 Qt_TempoPreparo = receitaDTO.Qt_TempoPreparo,
                 Ds_ModoPreparo = receitaDTO.Ds_ModoPreparo,
                 Qt_PessoasServidas = receitaDTO.Qt_PessoasServidas,
-                Ingredientes = receitaDTO.Ingredientes,
                 Cd_Usuario = receitaDTO.Cd_Usuario,
                 Usuario = usuario
             };
 
-            _dbContext.Receitas.Add(receita);
+            // Adicione os ingredientes à receita
+            if (receitaDTO.Ingredientes != null)
+            {
+                novaReceita.Ingredientes = receitaDTO.Ingredientes.Select(i => new Ingrediente
+                {
+                    Cd_Receita = novaReceita.Cd_Receita,
+                    Nm_Ingrediente = i.Nm_Ingrediente,
+                    Qt_Ingrediente = i.Qt_Ingrediente,
+                }).ToList();
+            }
+
+            // Adicione a receita ao contexto
+            _dbContext.Receitas.Add(novaReceita);
+
+            // Salve as alterações no banco de dados
             await _dbContext.SaveChangesAsync();
-            return receita;
+            return novaReceita;
         }
+
 
         public async Task<Receita> EditarReceita(ReceitaDTO receita)
         {

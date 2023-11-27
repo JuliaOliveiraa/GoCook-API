@@ -32,6 +32,10 @@ public class GoCookDbContext : DbContext
         modelBuilder.Entity<Ingrediente>()
             .HasKey(i => new { i.Cd_Ingrediente, i.Cd_Receita });
 
+        modelBuilder.Entity<Ingrediente>()
+            .Property(u => u.Cd_Ingrediente)
+            .ValueGeneratedOnAdd();
+
         modelBuilder.Entity<Usuario>()
             .HasMany(u => u.Receitas)
             .WithOne(r => r.Usuario)

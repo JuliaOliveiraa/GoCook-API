@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GoCook_API.Migrations
 {
     [DbContext(typeof(GoCookDbContext))]
-    [Migration("20231120235429_NewMigration")]
-    partial class NewMigration
+    [Migration("20231127035121_migrationNova")]
+    partial class migrationNova
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,7 +27,10 @@ namespace GoCook_API.Migrations
             modelBuilder.Entity("GoCook_API.Model.Ingrediente", b =>
                 {
                     b.Property<int>("Cd_Ingrediente")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Cd_Ingrediente"));
 
                     b.Property<int>("Cd_Receita")
                         .HasColumnType("int");
@@ -36,8 +39,9 @@ namespace GoCook_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Qt_Ingrediente")
-                        .HasColumnType("int");
+                    b.Property<string>("Qt_Ingrediente")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Cd_Ingrediente", "Cd_Receita");
 

@@ -24,7 +24,10 @@ namespace GoCook_API.Migrations
             modelBuilder.Entity("GoCook_API.Model.Ingrediente", b =>
                 {
                     b.Property<int>("Cd_Ingrediente")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Cd_Ingrediente"));
 
                     b.Property<int>("Cd_Receita")
                         .HasColumnType("int");
@@ -33,8 +36,9 @@ namespace GoCook_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Qt_Ingrediente")
-                        .HasColumnType("int");
+                    b.Property<string>("Qt_Ingrediente")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Cd_Ingrediente", "Cd_Receita");
 

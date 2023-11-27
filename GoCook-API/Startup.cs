@@ -43,6 +43,12 @@ public class Startup
 
         app.UseRouting(); // Adicione esta linha para habilitar o roteamento.
 
+        //app.Use(async (context, next) =>
+        //{
+        //    await next.Invoke();
+        //    await context.Response.WriteAsync("API GoCook funcionando, siga para a swagger: https://gocook.azurewebsites.net/swagger/index.html");
+        //});
+
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers(); // Esta linha configura os controllers para usar o roteamento.

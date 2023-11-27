@@ -8,10 +8,7 @@ public class Receita
     public string Ds_ModoPreparo { get; set; }
     public int Qt_PessoasServidas { get; set; }
     public int Cd_Usuario { get; set; }
-
-    // Relacionamento com Ingredientes
-    public List<Ingrediente> Ingredientes { get; set; }
-
+    public virtual List<Ingrediente> Ingredientes { get; set; }
     // Relacionamento com Usuário
     public Usuario Usuario { get; set; }
 }
